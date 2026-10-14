@@ -1,102 +1,88 @@
 ---
 name: brand-kit
-version: '1.0'
-last_updated: 2026-05-19
-author: genesys-growth
-description: Extract visual identity from screenshots (primary) or website URL (fallback) and compile into a DESIGN.md-format brand kit — YAML token frontmatter (colors, typography, rounded, spacing, components) + 8 ordered prose sections. The YAML tokens are machine-authoritative; downstream visual skills consume them directly. Writes to marketing/brand/brand-kit.md. Triggers - "brand kit", "brand identity", "visual identity", "design tokens", "extract brand", "DESIGN.md"
-goal: Extract visual identity from screenshots or website into a DESIGN.md-format brand kit with YAML token frontmatter + 8 prose sections.
-outcome: marketing/brand/brand-kit.md with machine-authoritative tokens (colors, typography, rounded, spacing, components) + human-readable prose.
-primitive: research
-ontology_type: brand-kit
-review_gate: 2
-inputs:
-  required: []
-  recommended:
-    []
-outputs:
-  - type: brand-kit
-    feeds_into:
-      - landing-page-wireframe
-      - ad-creative-brief
-      - sales-deck
-owned_by_agent: researcher
-mcps_used:
-  - exa
-triggers:
-  slash_commands:
-    - /brand-kit
-status: draft
+description: >-
+  Extracts a company's visual identity from screenshots (best) or its website (fallback) and writes a
+  DESIGN.md brand file: machine-readable tokens for colours, typography, spacing, corner radius and logo
+  usage, plus short prose explaining how and when to use each, and a list of do's and don'ts. Any later
+  page, deck, carousel or ad can read the tokens instead of guessing. Triggers: "brand kit", "brand
+  guidelines", "extract our brand", "design tokens", "colours and fonts from", "visual identity",
+  "DESIGN.md". Not for tone of voice (use /tov-guidelines) or messaging (use /messaging).
+version: '1.0.0'
+license: MIT
 ---
 
-# brand-kit — Stage 1 + 2 research skill (PMM spine)
+# Brand kit
 
-Compiles visual identity into a structured brand kit. Output format: DESIGN.md (YAML token frontmatter + 8 prose sections). The YAML tokens are the machine-authoritative source — downstream skills that produce visual output (landing-page wireframes, ad creative briefs, slide decks) consume the tokens directly.
+Turn what a brand looks like into a file other work can rely on. The tokens at the top are the source of truth: when a later page needs the primary colour, it reads the hex value from here instead of approximating it from a description. The prose underneath explains why each choice exists and how to use it.
 
----
+## When to use it
 
-## When to use
+- Building the context folder, before any visual output.
+- When the team keeps producing off-brand pages, decks or ads.
+- When a brand guide exists as a PDF nobody opens, and you want it in a form AI tools can read.
 
-- When the team refreshes visual identity (new color palette, new typography system)
-- Before building any landing page, ad creative, or designed artifact — they need the brand kit as input
-- Quarterly refresh
+Don't use it for voice (`/tov-guidelines`), for messaging (`/messaging`), or to design a new identity from scratch unless that's explicitly what the user asked for.
 
-## When NOT to use
+## Inputs
 
-- For voice / tone (use `/tov-guidelines` — voice + visual are separate but both live in `marketing/brand/`)
-- For positioning or messaging (use `/positioning` or `/product-messaging`)
-- For one-off design checks (write a custom gate skill that reads `brand-kit.md` tokens)
+**Required:** one visual source and the company name. The visual source is either:
+- 3 to 5 screenshots: homepage, about, pricing, a feature page. This gives the highest fidelity.
+- a website URL, where you capture screenshots yourself if you can.
+- a brand PDF.
 
-## How it works
+**Optional:** the website URL alongside screenshots (to read exact hex codes and font names from the CSS), a Figma file, logo files, an existing brand guide.
 
-1. Inputs: screenshots of your product / website (primary, higher fidelity) OR website URL (fallback, lower fidelity).
-2. Reads: visual content via Claude's vision (screenshots) or Exa MCP web fetch (URL).
-3. Extracts: exact colors (hex codes), typography stack (font family + sizes + weights + line heights + letter spacing), spacing scale, corner radii, component patterns (button states, card styles, input styles, etc.).
-4. Produces a DESIGN.md-format brand kit:
-   - **YAML token frontmatter** (machine-authoritative): colors, typography, rounded, spacing, components — token references use `{path.to.token}` syntax
-   - **8 ordered prose sections**: Overview, Colors, Typography, Layout, Elevation & Depth, Shapes, Components, Do's and Don'ts
-5. Validates against the design-production doctrine: ≤2 brand colors active per screen, ≤2 font weights per screen, ≤10% accent coverage, no banned patterns (gradient text, side-stripe borders, hero-metric template, icon-tile-above-heading template, cardocalypse, glassmorphism).
-6. Writes to `marketing/brand/brand-kit.md` (overwrites prior canonical; git history preserves prior versions).
+**Decide the job first:** apply the brand as it is (most common), fill in only the missing pieces, or create a new identity (only when asked).
 
-## Invoke
+**Paths.** Write to `context/brand/MMYY-brand-kit.md`. Agency or consultant? Swap `context/` for `clients/<client>/context/` throughout.
 
-```
-/brand-kit screenshots: [paths to product screenshots]
-```
+**Tools.** Your own vision on screenshots does most of the work. Page fetching or Firecrawl can read CSS for exact values. A browser automation tool can take screenshots from a URL if you have one.
 
-Or URL-fallback:
-```
-/brand-kit https://yourdomain.com — extract visual identity
-```
+## Steps
 
-## Example output
+1. **Capture.** Get the screenshots, including pages that show icons, illustrations and photos in context, not just the logo.
+2. **Analyse.** Colours (primary, secondary, accent, background, text), fonts and sizes, spacing rhythm, corner radius, buttons and cards, imagery style.
+3. **Cross-check** against the CSS if you have the URL. When the CSS and the screenshot disagree, trust the screenshot.
+4. **Score confidence** 0 to 5 on every token, and note where it came from.
+5. **Write the tokens.** A YAML block at the top of the file:
+   - `colors`: at least a `primary`, plus secondary, accent, background, surface, text, muted. Hex values.
+   - `typography`: heading and body font families, weights, a size scale.
+   - `spacing`: a base unit and scale.
+   - `rounded`: corner radius values.
+   - `logo`: which file to use on light and dark backgrounds, minimum size, clear space.
+   - Refer to other tokens as `{colors.primary}` rather than repeating the hex.
+6. **Write the prose sections,** in this order:
+   - overview and mood
+   - logo usage
+   - colours, with what each is for
+   - typography
+   - layout and spacing
+   - shapes
+   - imagery
+   - do's and don'ts
+7. **Make the do's and don'ts quantitative.** Accent colour on no more than about 10% of a screen. No more than two font weights per screen. One primary action per screen. Name the brand's one signature element and limit it to one use per surface.
+8. **Check the file.**
+   - every `{token}` reference resolves
+   - a primary colour exists
+   - text and background pairs meet WCAG AA contrast
+   - every colour token is used somewhere
+9. **Mark gaps** as `[NEEDS VERIFICATION]` with your best estimate.
 
-See [`marketing/brand/brand-kit.md`](../../../marketing/brand/brand-kit.md) for the PulseAnalytics seed. Notice the YAML frontmatter is the source of truth; the prose body explains intent. Token references use `{path.to.token}` syntax — every component reference resolves to a defined token. Do's and Don'ts encode quantitative limits (≤2 font weights per screen, ≤10% accent coverage).
+## What good looks like
 
-## Dependencies
+- Every hex value was seen in a screenshot or the CSS. Nothing is guessed.
+- Font names are confirmed, or described by shape with likely candidates flagged.
+- Logo rules only describe files that exist.
+- A designer, or an AI building a landing page, could produce an on-brand page from this file alone.
+- The do's and don'ts are specific to this brand, not generic design advice.
 
-- **Reads from:** source visual content (screenshots or URL — provided as input)
-- **Reads via Exa MCP (optional):** website if URL-fallback path is used
-- **Writes to:** `marketing/brand/brand-kit.md` (canonical)
-- **Downstream readers:** `/landing-page-wireframe`, `/landing-page-copy`, `/ad-creative-brief`, `/sales-deck`, `/linkedin-carousels`, any visual-output skill
+## Mistakes to avoid
 
-## Customization
+- Inventing an icon set or illustration style the brand doesn't have. "No icon set" is a valid finding.
+- Approximating colours from a description ("a warm red") instead of extracting the value.
+- Describing the brand in adjectives with no tokens.
+- Letting the signature element creep into every section.
 
-Add custom token categories if your brand requires them (e.g., `motion` tokens for animation timing, `iconography` tokens for icon style). The YAML frontmatter accepts arbitrary top-level keys; downstream skills consume whatever exists.
+## Chain
 
-Update the Do's and Don'ts when you spot a recurring violation in produced artifacts — add a rule, downstream skills enforce it on next run.
-
-## Where this fits in the Example 1 chain
-
-```
-Week 1: /brand-kit (parallel with positioning + voice research) → visual identity locked
-Week 2: /landing-page-wireframe + /landing-page-copy read brand kit + messaging
-Week 3+: every visual-output skill reads brand kit
-```
-
-## Refresh cadence
-
-Quarterly. Trigger sooner on visual identity refresh, new product launch with distinct visual treatment, or major brand update.
-
-## Design production doctrine
-
-See `.claude/rules/design-production.md` (in the Genesys workspace; not duplicated here) for the integration contract — how YAML tokens flow into CSS variables (web), Figma variables (design), and slide / image templates (non-web).
+Step 7 of the suggested chain: `/company-context` → `/icp-research` → `/competitor-research` → `/win-loss` → `/expert-pov` → `/tov-guidelines` → **brand-kit** → `/positioning` → `/messaging` → `/funnel-strategy` → `/goals`.

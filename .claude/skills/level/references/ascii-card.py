@@ -16,7 +16,7 @@ Payload:
 
 Usage:  echo '<json>' | python3 ascii-card.py
 Brand:  brand_name/brand_url come from the resolved brand kit's `name`/domain
-        (see SKILL.md "Resolve the brand" — from marketing/brand/brand-kit.md).
+        (see SKILL.md "Resolve the brand" — from context/brand/brand-kit.md).
         ASCII is monochrome — brand presence
         is the wordmark + domain, not colour.
 """

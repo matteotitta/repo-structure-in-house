@@ -1,107 +1,94 @@
 ---
 name: icp-research
-version: '1.0'
-last_updated: 2026-05-19
-author: genesys-growth
-description: Build structured ICP documentation by scraping case studies, testimonials, and solutions pages from your website. Produces firmographics, champion + economic buyer personas, pain points, decision criteria, anti-ICP, customer proof points, and voice-of-customer synthesis. Writes to marketing/icp/ICP.md as the canonical ICP every downstream skill reads. Triggers - "icp research", "ideal customer profile", "persona research", "customer segments", "who are our customers", "build ICP"
-goal: Build a structured ICP from website signals + win-loss data so every downstream skill works from the same definition of the customer.
-outcome: marketing/icp/ICP.md with firmographics, champion + economic buyer personas, pain points, anti-ICP, voice-of-customer.
-primitive: research
-ontology_type: icp-profile
-review_gate: 2
-inputs:
-  required: []
-  recommended:
-    - competitor-research
-outputs:
-  - type: icp-profile
-    feeds_into:
-      - positioning
-      - product-messaging
-      - funnel-strategy
-      - content-strategy
-owned_by_agent: researcher
-mcps_used:
-  - exa
-triggers:
-  slash_commands:
-    - /icp-research
-status: draft
+description: >-
+  Builds an ideal customer profile from evidence: case studies, testimonials, customer logos, solutions
+  pages, reviews and any sales notes you have. Produces market sizing layers, firmographic segments, a
+  champion and an economic buyer persona, a negative ICP, intent signals, customer proof points and a
+  voice-of-customer section in the buyers' own words, every claim sourced. Triggers: "ICP research",
+  "ideal customer profile", "who are our customers", "customer segments", "buyer personas", "who should
+  we target". Run after /company-context. Not for competitor analysis (use /competitor-research) or call
+  transcript patterns (use /win-loss).
+version: '1.0.0'
+license: MIT
 ---
 
-# icp-research — Stage 1 + 2 research skill
+# ICP research
 
-The article's Example 1 Day 5 skill. Reads your website + win-loss patterns (if available) + competitor outputs (if locked) and writes a structured ICP to `marketing/icp/ICP.md`. This file is canonical from creation — every downstream skill reads it.
+Work out who actually buys, who signs, who uses it and who isn't a fit, from what customers have said and done in public and in your own records. The output is the ICP file every later skill reads before it writes a word.
 
----
+## When to use it
 
-## When to use
+- Building the context folder, right after `/company-context`.
+- Before positioning or messaging work, when nobody can say who the best customers are in one sentence.
+- When sales keeps chasing deals that don't close and you suspect the target is too broad.
 
-- Day 5 of Example 1: after competitor research + win-loss data exist, build the ICP synthesis
-- Quarterly refresh of ICP (markets shift)
-- New segment exploration ("we're adding a healthcare vertical — re-run ICP for that segment")
-- After major win-loss shift (5+ recent losses in a segment → re-run ICP)
+Don't use it to analyse sales calls (`/win-loss`) or competitors (`/competitor-research`).
 
-## When NOT to use
+## Inputs
 
-- For behavioural simulation of an ICP buyer (use `/icp-behavioural` — not in V2 quickstart)
-- For interview prep against a single account (use `/customer-interviews` — not in V2 quickstart)
-- For competitor research (use `/competitor-research`)
-- For positioning strategy (use `/positioning` after ICP locks)
+**Required:** the company website URL. If it's missing, ask.
 
-## How it works
+**Recommended:** `context/company/` from `/company-context`; links to case studies and testimonials; a customer list or CRM export (strip names and emails first); sales notes on wins and objections; any existing ICP document to check against.
 
-1. Inputs: your website URL (required). Optional: list of representative customer URLs, win-loss patterns from prior cycle, competitor aggregate.
-2. Reads (Exa MCP for fresh data): website case studies, customer pages, testimonials, blog posts, About / Solutions pages.
-3. Optionally reads: `marketing/competitors/aggregate.md` (if locked) to inform "anti-ICP" framing; recent win-loss data from `marketing/win-loss/win-loss.md` (if `/win-loss-analysis` has run).
-4. Produces a structured ICP with these sections (matches the PulseAnalytics example at `marketing/icp/ICP.md`):
-   - **Firmographics** — company type, revenue stage, team size, funding, geography, industry
-   - **Champion persona** — title, tenure, reporting, owns, their week, JTBD, job-context triggers, pain points (priority order), decision criteria
-   - **Economic buyer persona** — title, motivation, decision criteria
-   - **Anti-ICP** — who NOT to sell to + why
-   - **Where they hang out** — acquisition channels with rationale
-   - **Customer proof points** — populate as real customers ship (start empty with `[UNAVAILABLE]` notation)
-   - **Voice of customer** — verbatim quotes by theme (populate from `/win-loss-analysis` over time)
-5. Every claim tagged with confidence per `.claude/rules/ontology.md`. Invented metrics forbidden — use `[UNAVAILABLE]` instead.
-6. Writes to `marketing/icp/ICP.md` (overwrites prior canonical; git history preserves prior versions).
+If a recommended input is missing, run from what you have and list what's missing in the data gaps section.
 
-## Invoke
+**Paths.** Write to `context/icp/MMYY-icp.md`. Agency or consultant? Swap `context/` for `clients/<client>/context/` throughout.
 
-```
-/icp-research https://yourdomain.com
-```
+**Tools.** Web search and page fetching are enough. Exa or Firecrawl help if you have them. Review sites (G2, Capterra) and the company's LinkedIn page are useful public sources.
 
-Or with optional inputs:
-```
-/icp-research https://yourdomain.com + read these 3 case studies: [URLs]
-```
+## Steps
 
-## Example output
+1. **Find the evidence pages.** Customers, case studies, testimonials, solutions or industry pages, pricing, integrations, review sites.
+   *Produces:* a source list with URLs and access dates.
+2. **Extract raw data per customer.** Company name, industry, size, region, role of the person quoted, the problem they described, the outcome they reported, tools they mention.
+   *Produces:* a customer evidence table.
+3. **Normalise the attributes.** Put size, industry and region into consistent bands so you can count them.
+4. **Find the segments.** Count which industries, sizes and regions repeat. A segment needs several customers behind it, not one logo.
+   *Produces:* 2 to 4 candidate segments with counts.
+5. **Size the market in layers.** Total market, the part you can serve, the part you can realistically win, and the ICP as the best slice of that. Show the maths and mark estimates. Each layer must be smaller than the one above.
+6. **Build two personas.** The champion (who feels the pain and pushes for the purchase) and the economic buyer (who signs). Cover goals, pains, triggers, objections and how each one judges success. They must read differently.
+7. **Write the negative ICP.** Who looks like a fit but isn't, and the signals that disqualify them.
+8. **List intent signals and buying triggers.** Observable events that show a company is ready: a new hire, funding, a tool change, a regulation, a growth milestone.
+9. **Collect proof points.** Named customers with outcomes and URLs. Only customers referenced in public or in data the user gave you.
+10. **Synthesise voice of customer.** Exact phrases customers use for their problem and their outcome. Quote, don't paraphrase.
+11. **Recommend the priority segment.** Rank the segments and say why the first one wins.
+12. **List data gaps** and what would fill them (interviews, CRM fields, win-loss).
 
-See [`marketing/icp/ICP.md`](../../../marketing/icp/ICP.md) for the PulseAnalytics example seed. Notice the structure repeats per persona (champion + economic buyer); pain points are priority-ordered; anti-ICP is explicit; VoC + proof points start `[UNAVAILABLE]` and fill as data lands.
+## Output shape
 
-## Dependencies
+Open with a 3-line TLDR and a short block of open questions. Then:
 
-- **Reads from:** your website URL (required); `marketing/competitors/aggregate.md` (optional, recommended); `marketing/win-loss/win-loss.md` (optional, recommended — produced by `/win-loss-analysis`)
-- **Reads via Exa MCP (optional):** website + recent customer-facing pages
-- **Writes to:** `marketing/icp/ICP.md` (canonical, every downstream skill reads here)
+1. Header: date, website, confidence score 1 to 5.
+2. Market sizing layers with the maths.
+3. Firmographics: industry, size, region, tech stack patterns.
+4. Personas: champion, economic buyer, and users or influencers if relevant.
+5. Negative ICP.
+6. Customer proof points.
+7. Voice of customer.
+8. Segment definitions, ranked, with intent signals.
+9. Recommendations.
+10. Data gaps.
+11. Sources with URLs, dates and confidence.
 
-## Customization
+Sort roles as champion, economic buyer, user, influencer. Sort sizes from largest to smallest.
 
-Add a custom segment (e.g., "Enterprise tier") by extending the firmographics section with a segment-table — different revenue/team-size cuts get different champion personas. The Genesys-internal version supports segment-by-segment ICPs; the quickstart simplifies to one ICP and one champion.
+## What good looks like
 
-Edit pain-point priority order based on real customer conversations as they happen. Pain priority drives messaging hierarchy downstream.
+- Every customer named is public or came from the user's own data.
+- Quotes are verbatim and attributed to a role.
+- The champion and the economic buyer have different pains and different success measures.
+- The negative ICP excludes real companies someone might chase.
+- Segment claims show their count ("6 of 14 case studies"). Small samples are flagged once, not repeated in every section.
+- The confidence score matches the evidence: mostly high-confidence sources score 4 or 5, mostly estimates score 1 or 2.
 
-## Where this fits in the Example 1 chain
+## Mistakes to avoid
 
-```
-Day 1-3: /competitor-research × N → per-competitor files
-Day 3:   /competitor-aggregate → competitor canonical
-Day 4:   /win-loss-analysis → win-loss canonical (marketing/win-loss/win-loss.md)
-Day 5:   /icp-research (THIS SKILL) → canonical ICP
-Week 2:  /positioning reads ICP.md + competitor aggregate
-```
+- Inventing customer names or composite quotes.
+- Personas built from imagination ("Marketing Mary, 34, loves podcasts").
+- Market sizing that grows as it narrows, or a top-down number with no maths.
+- Calling one big logo a segment.
+- Writing the same caveat in every section. Say it once and point to it.
 
-## Refresh cadence
+## Chain
 
-Quarterly. Trigger sooner on major win-loss shift, new segment entry, or major change in champion-persona vocabulary.
+Step 2 of the suggested chain: `/company-context` → **icp-research** → `/competitor-research` → `/win-loss` → `/expert-pov` → `/tov-guidelines` → `/brand-kit` → `/positioning` → `/messaging` → `/funnel-strategy` → `/goals`.

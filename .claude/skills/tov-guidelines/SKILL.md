@@ -1,102 +1,99 @@
 ---
 name: tov-guidelines
-version: '1.0'
-last_updated: 2026-05-19
-author: genesys-growth
-description: Extract voice patterns from existing content (website, blog, social, sales-call transcripts) and codify into voice rules. Produces voice analysis + voice guidelines (rules per pattern + violation pattern + fix template). Writes to marketing/brand/brand-voice.md as the canonical voice rules every content skill reads. Triggers - "tone of voice", "brand voice", "voice guidelines", "TOV audit", "writing rules", "extract voice"
-goal: Analyze existing content (website, blog, social, sales-call transcripts) and codify voice patterns into 5 voice rules with violation/fix patterns.
-outcome: marketing/brand/brand-voice.md with 5 voice rules every content skill applies.
-primitive: research
-ontology_type: tone-of-voice
-review_gate: 2
-inputs:
-  required: []
-  recommended:
-    []
-outputs:
-  - type: tone-of-voice
-    feeds_into:
-      - content-strategy
-      - landing-page-copy
-      - product-messaging
-owned_by_agent: researcher
-mcps_used:
-  - exa
-triggers:
-  slash_commands:
-    - /tov-guidelines
-status: draft
+description: >-
+  Extracts a company's tone of voice from its own content and turns it into rules a writer or an AI can
+  follow. Phase 1 analyses 15 to 20 pages for sentence, paragraph, word and structure patterns with
+  frequency counts; after the user reviews it, Phase 2 writes the guidelines: tone attributes with
+  before and after examples, a We are / We are not table, tone by context, vocabulary to use and avoid,
+  and open questions. Triggers: "tone of voice", "brand voice", "voice guidelines", "writing style
+  guide", "extract voice from our website", "TOV". Not for visual identity (use /brand-kit) or messaging
+  (use /messaging).
+version: '1.0.0'
+license: MIT
 ---
 
-# tov-guidelines — Stage 1 + 2 research skill (PMM spine)
+# TOV guidelines
 
-Analyzes existing content (your website, blog, recent LinkedIn posts, sales-call transcripts) and produces voice rules that downstream content skills apply.
+Find out how a company actually writes, then write that down as rules specific enough that a new writer, or an AI, sounds like them on the first draft. Two phases with a review in between: first the evidence, then the guidelines.
 
----
+## When to use it
 
-## When to use
+- Building the context folder, before any copy or content work.
+- Starting a content program, or onboarding writers or AI tools.
+- When content has drifted, or the existing guide is more than six months old.
 
-- When onboarding a new content writer / contractor — they need codified voice rules to write in your voice
-- When LinkedIn or blog output stops sounding like the founder / brand
-- Quarterly refresh
+Don't use it for colours and fonts (`/brand-kit`), for what to say (`/messaging`), or when the user only wants a one-line description of the voice.
 
-## When NOT to use
+## Inputs
 
-- For visual brand identity (use `/brand-kit` — voice + visual are separate but both live in `marketing/brand/`)
-- For one-off content checks against existing rules (write a custom gate skill that reads `brand-voice.md`)
-- For positioning or messaging (use `/positioning` or `/product-messaging`)
+**Required:** the company website URL. It needs a homepage and at least 5 to 10 pages of real content. If it's thin, say so and flag the sample size in the output.
 
-## How it works
+**Optional:** founder notes or transcripts, an existing style guide to update, `context/icp/` for the reader, `context/expert-pov/` for the founder's own voice.
 
-1. Inputs: source content (one or more of: website URL, blog URL, LinkedIn handle, sales-call transcripts, founder writing samples).
-2. Reads (Exa MCP for fresh data): the source content. Patterns extracted include: vocabulary preferences, sentence-length defaults, headline conventions, em-dash usage, list-vs-prose preference, contraction frequency, persona pronouns, signature opening / closing patterns.
-3. Produces a two-phase output:
-   - **Phase 1 — Voice analysis** (extracted patterns from source material with frequency scores): "uses em-dash with spaces 87% of the time across 30 LinkedIn posts; sentence case headings 100% of the time; banned-word violations 0 in last 10 posts"
-   - **Phase 2 — Voice guidelines** (codified rules every content skill applies):
-     - Rule N — {rule name}
-     - **The rule:** 1-sentence statement
-     - **Why:** 1-sentence justification
-     - **Violation pattern:** what breaking this looks like
-     - **Fix template:** how to fix
-     - **Exception:** when the rule doesn't apply
-4. Writes to `marketing/brand/brand-voice.md` (overwrites prior canonical; git history preserves prior versions). Marks `status: locked` once approved.
+**Paths.** Write `context/brand/MMYY-tov-analysis.md` (Phase 1) and `context/brand/MMYY-tov-guidelines.md` (Phase 2). Agency or consultant? Swap `context/` for `clients/<client>/context/` throughout.
 
-## Invoke
+**Tools.** Page fetching for the site. Web search with a site filter helps collect founder posts. Exa or Firecrawl are fine if you have them.
 
-```
-/tov-guidelines https://yourdomain.com + analyze my last 10 LinkedIn posts
-```
+## Phase 1: analysis
 
-Or open-ended:
-```
-/tov-guidelines extract voice from these sales-call transcripts: [paths]
-```
+1. **Pick the pages.** Homepage, about or values, 3 to 5 blog posts, 2 to 3 case studies, pricing, FAQ, a landing page. Aim for 15 to 20.
+2. **Sentence patterns:** average length, first or third person, questions, imperatives.
+3. **Paragraph patterns:** length, how they open, where evidence sits.
+4. **Word patterns:** the company's own terms, the customer's terms, words they avoid, how often they use modifiers.
+5. **Structure patterns:** sentence or title case headers, CTA wording and placement, how they stack proof.
+6. **Score frequency.**
+   - High: 80% of pages or more.
+   - Medium: 40 to 79%.
+   - Low: under 40%.
+   - Conflict: pages contradict each other.
 
-## Example output
+   Show the count ("5 of 6 pages").
+7. **Map voice by content type.** Person, formality and CTA style for homepage, blog, case study and pricing.
+8. **Collect real examples** for each pattern. Use real sentences only, never invented ones.
+9. **Flag inconsistencies and gaps**, with the questions you'd ask the founder.
+10. **Review gate.** The user confirms the patterns, corrects anything wrong and answers the gap questions. Don't start Phase 2 without this.
 
-See [`marketing/brand/brand-voice.md`](../../../marketing/brand/brand-voice.md) for the PulseAnalytics seed. Notice the 5 rules each have rule statement + why + violation pattern + fix template + exception. The 5 rules cluster into two themes (prose hygiene + claim integrity).
+## Phase 2: guidelines
 
-## Dependencies
+1. **Apply the feedback** and resolve each inconsistency.
+2. **Write the core guide:**
+   - who reads it
+   - 3 to 5 tone attributes, each with a before and after rewrite
+   - vocabulary to use and avoid
+   - structure templates for the main content types
+3. **We are / We are not table.** 5 to 8 rows, each backed by Phase 1 evidence.
+4. **Tone by context.** How the voice shifts for these contexts:
+   - cold outreach
+   - nurture email
+   - objection handling
+   - sales follow-up
+   - support reply
+   - case study
+   - social post
+5. **Tone by reader emotion.** How to write to someone frustrated, sceptical, excited or rushed.
+6. **AI writing tells to avoid.** At least five patterns that would make this brand sound machine-written, shown with the brand's own fix. Examples: generic praise openers, three short parallel sentences, "it's not X, it's Y" contrasts, filler transitions, closing on "what do you think?".
+7. **Optional sections**, only when they apply:
+   - hard questions answered: security, pricing, a big competitor. Mark these draft until the founder approves.
+   - product microcopy, for companies with a product UI.
+   - AI assistant voice, for companies with a chatbot.
+8. **Open questions.** At least three, each saying what it unblocks.
+9. **Source every rule** to a page, or mark it "TBD, needs founder input".
 
-- **Reads from:** source content (URL or files — provided as input); optionally `marketing/icp/ICP.md` (voice should match the ICP's vocabulary register)
-- **Reads via Exa MCP (optional):** the source content if it lives on the web
-- **Writes to:** `marketing/brand/brand-voice.md` (canonical)
-- **Downstream readers:** any content skill (LinkedIn, blog, newsletter, email), `/landing-page-copy`, future gate skills
+## What good looks like
 
-## Customization
+- At least 15 pages read, with findings in every pattern category.
+- Frequencies are counts, never "usually" or "often".
+- No adjective-only rules. "Friendly" isn't a guideline; "use 'you' in the first sentence of every page" is.
+- Every example is real text from the site.
+- A writer could pick the right tone for a support reply without asking anyone.
 
-The 5-rule default in the PulseAnalytics example is operator-flavored. Yours may need more rules (large enterprise teams sometimes track 8-12) or fewer (founder voice often clusters into 3-4 rules). Use whatever rule count matches the patterns you can actually enforce.
+## Mistakes to avoid
 
-Don't add a rule you can't enforce — every rule should map to a check a gate skill could run automatically. Vague rules ("be human") get ignored; specific rules ("no em-dashes without spaces") get enforced.
+- Writing the voice you wish they had instead of the one they have. Note the gap; don't paper over it.
+- Skipping the review gate.
+- Copying another company's style guide structure and filling it with adjectives.
+- Rules so vague any brand could use them.
 
-## Where this fits in the Example 1 chain
+## Chain
 
-```
-Week 1: /tov-guidelines (parallel with competitor + ICP research) → voice rules locked
-Week 2: /positioning + /product-messaging apply voice rules to output
-Week 3+: every content / paid / outbound execution skill reads voice rules
-```
-
-## Refresh cadence
-
-Quarterly. Trigger sooner when the team finds a new buzzword pattern, customer flags off-brand phrasing, or a new persona is added (vocabulary may shift).
+Step 6 of the suggested chain: `/company-context` → `/icp-research` → `/competitor-research` → `/win-loss` → `/expert-pov` → **tov-guidelines** → `/brand-kit` → `/positioning` → `/messaging` → `/funnel-strategy` → `/goals`.

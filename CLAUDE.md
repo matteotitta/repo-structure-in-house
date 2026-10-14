@@ -1,11 +1,24 @@
-# Claude — start at [README.md](./README.md)
+# How to work in this repo
 
-This file is here so Claude Code has an auto-load anchor at session start. The actual onboarding doc is [`README.md`](./README.md). Read that first.
+This is a marketing workspace for one company. Read this file, then `latest.md`.
 
-If you're a returning user picking up work:
+## Before you write anything
 
-- Current state of the workspace → [`marketing/latest.md`](./marketing/latest.md) (once you've populated `marketing/`)
-- Recent ops log → [`marketing/history.md`](./marketing/history.md)
-- Reference example → [`pulse-analytics-example/`](./pulse-analytics-example/)
-- Skills available → [`.claude/skills/`](./.claude/skills/)
-- Connector setup → [`.claude/connections.md`](./.claude/connections.md)
+1. Read the relevant files in `context/`: at least `icp/`, `positioning/` and `messaging/`, plus `brand/` for anything public.
+2. If a context file you need is empty, say so and offer to run the skill that fills it. Don't invent the missing facts.
+3. Save work to `outputs/<lane>/<research|strategy|execution>/` and name files `MMYY-topic.md`, for example `1026-launch-plan.md`.
+
+## House rules
+
+- Source every claim, and mark guesses as guesses. Never invent numbers, quotes or customers.
+- Keep each `CLAUDE.md` to one page. They are maps, not documents.
+- Write in the voice in `context/brand/`. If there isn't one, write plainly and say so.
+- After meaningful work, add one line to `history.md` and update `latest.md`.
+
+## Map
+
+- `context/`: what's true about the company
+- `outputs/`: what we ship
+- `workflows/`: multi-skill recipes
+- `library/taste/`: references
+- `example/pulse-analytics/`: a filled-in example. Copy its shape, never its facts

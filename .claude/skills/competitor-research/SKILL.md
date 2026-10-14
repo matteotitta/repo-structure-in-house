@@ -1,114 +1,87 @@
 ---
 name: competitor-research
-version: '1.0'
-last_updated: 2026-05-19
-author: genesys-growth
-description: Run deep research on a single competitor. Produces a dossier with executive summary, position + messaging, status-quo alternatives, key differentiators, pricing position, where-they-win / where-they-lose, threat assessment, and what to watch. Writes to marketing/competitors/MMYY-{competitor-slug}.md. Triggers - "competitor research", "competitive analysis", "research competitor X", "battlecard prep", "analyze [competitor name]"
-goal: Produce a deep dossier on a single competitor: positioning, messaging, status-quo, differentiators, pricing, where-they-win/lose, threat assessment.
-outcome: marketing/competitors/MMYY-{competitor-slug}.md with executive summary + 11 dimensions of analysis.
-primitive: research
-ontology_type: competitor-intel
-review_gate: 2
-inputs:
-  required: []
-  recommended:
-    []
-outputs:
-  - type: competitor-intel
-    feeds_into:
-      - positioning
-      - product-messaging
-      - competitor-aggregate
-      - sales-enablement
-owned_by_agent: researcher
-mcps_used:
-  - exa
-triggers:
-  slash_commands:
-    - /competitor-research
-status: draft
+description: >-
+  Researches one B2B SaaS competitor across 13 dimensions (company, product, ICP, pricing, reviews,
+  content, launches, search and AI visibility, tech stack, hiring, go-to-market, social, paid ads) and
+  writes a sourced dossier with an executive summary, a threat level, strengths and weaknesses, and a
+  data gaps section. Run it once per competitor, then compare. Triggers: "competitor analysis",
+  "competitor research on", "what is [competitor] doing", "compare us to", "competitive landscape",
+  "battlecard prep". Run after /company-context and /icp-research. Not for researching your own company
+  (use /company-context).
+version: '1.0.0'
+license: MIT
 ---
 
-# competitor-research — Stage 1 research skill
+# Competitor research
 
-The first skill in the article's Example 1 chain. Reads a competitor URL + name, produces a structured dossier, writes the file to `marketing/competitors/MMYY-{slug}.md`. Run once per competitor (3-5 competitors is typical for the first cycle). After all per-competitor files exist, run `/competitor-aggregate` to synthesize the canonical threat matrix.
+Build a dossier on one competitor that a marketer, a seller and a founder can each act on. The rule that governs everything: **no data point without a source.** Every claim carries a URL and an access date, or it's marked `[Not available]`.
 
----
+## When to use it
 
-## When to use
+- Building the context folder, after you know who your customer is.
+- Before positioning, so you know what buyers compare you to.
+- When a competitor shows up in deals more often, or launches something.
 
-- Day 1 of the article's Example 1 ("foundational workflow"): you have a list of 3-5 competitors and need structured intel on each
-- Before refreshing `/positioning` — positioning must read from current competitor intel
-- Before writing battlecards or comparison pages
-- Quarterly refresh of any specific competitor that's made a major move (funding, launch, executive change)
+Don't use it for your own company (`/company-context`) or a single factual question ("what does X charge?"), which you can answer directly.
 
-## When NOT to use
+## Inputs
 
-- Aggregating across multiple competitors (use `/competitor-aggregate` after this skill produces per-competitor files)
-- Building battlecards (use `/sales-enablement` — different shape, sales-team-facing)
-- ICP research (use `/icp-research`)
-- General company background unrelated to competition (use `/company-context`)
+**Required:** the competitor's name and website. If the name is ambiguous, confirm before you start.
 
-## How it works
+**Recommended:** `context/company/` and `context/icp/` (so you can judge the threat against your own buyer), any existing dossier to refresh, and the questions the user cares about most (pricing, outbound, a feature).
 
-1. Inputs: competitor name + competitor URL (required). Optional: industry context, key differentiator hypothesis you want to test.
-2. Reads (optional Exa MCP for fresh web data): competitor homepage, pricing page, about page, recent blog posts, recent LinkedIn activity.
-3. Produces a 12-section dossier (matching the PulseAnalytics example at `marketing/competitors/0526-competitor-a.md`):
-   - Executive summary (3-4 sentences)
-   - Anchor + category
-   - Position + messaging
-   - Status-quo alternatives they position against
-   - Key differentiators (claimed)
-   - Pricing position
-   - Where they win
-   - Where they lose (your wedge)
-   - Threat assessment (PRIMARY / DIRECT / STEALTH / LOW / DEFUNCT)
-   - Win-loss patterns (from your deal history if available)
-   - What to watch
-   - Refresh cadence + owner
-4. Every claim tagged with confidence per `.claude/rules/ontology.md`: `[VERIFIED: source, url, date]`, `[INFERRED: from X + Y]`, `[ESTIMATED: reasoning]`, `[UNAVAILABLE]`.
-5. Writes the file to `marketing/competitors/MMYY-{competitor-slug}.md`. MMYY is current month+year (e.g., `0526` for May 2026).
+**Paths.** Write to `context/competitors/MMYY-<competitor-slug>.md`. With two or more dossiers done, add `context/competitors/MMYY-landscape.md`. Agency or consultant? Swap `context/` for `clients/<client>/context/` throughout.
 
-## Invoke
+**Tools.** Web search and page fetching cover most of it. Exa helps find similar companies and clean page text; Firecrawl helps with pricing and comparison pages. Paid SEO and tech-stack tools are optional: if you don't have one, say so in that dimension rather than guessing. On a large site, list the pages first and only read the ones that matter (product, pricing, positioning, customers).
 
-```
-/competitor-research Bizible — https://bizible.com
-```
+## The 13 dimensions
 
-Or open-ended:
-```
-/competitor-research analyze our top competitor — Bizible — and write the dossier
-```
+1. **Company:** founding, funding, headcount, leadership.
+2. **Product:** core offer, key features, what changed recently.
+3. **ICP:** who they sell to, judged from their case studies and logos.
+4. **Pricing:** model, tiers, entry price, what's gated behind sales.
+5. **Reviews:** themes in G2, Capterra or Trustpilot praise and complaints, with counts.
+6. **Content:** what they publish, how often, which topics.
+7. **Launches:** what they've shipped in the last 12 months.
+8. **Search and AI visibility:** the topics they rank or get cited for.
+9. **Tech stack:** tools visible on the site, if you can see them.
+10. **Hiring:** open roles by team, which signal where they're investing.
+11. **Go-to-market:** self-serve, sales-led or both; channels; partnerships.
+12. **LinkedIn and social:** founder and company activity, recurring themes.
+13. **Paid advertising:** ads visible in public ad libraries, angles they test.
 
-## Example output (against the PulseAnalytics example seed)
+## Steps
 
-See [`marketing/competitors/0526-competitor-a.md`](../../../marketing/competitors/0526-competitor-a.md) for a fully-populated example of what this skill produces. Notice:
+1. **Confirm scope.** Name, URL, and what the user wants to learn. *Produces:* a one-line brief.
+2. **Research each dimension** in the order above. Note the source and date for each finding. If a dimension needs a tool you don't have, write `[Not available: needs X]` and move on.
+3. **Tag confidence.** `[VERIFIED]`, `[INFERRED]`, `[ESTIMATED]`, `[UNAVAILABLE]`. Aim for at least half verified.
+4. **Assess strengths and weaknesses** against your ICP, not in the abstract.
+5. **Set a threat level:** primary (same buyer, same problem, often in deals), enterprise tier (same problem, bigger buyer), direct ICP (same buyer, adjacent problem), watch (early or stealth), low, or defunct. Explain the call in two sentences.
+6. **Write the executive summary** last, in 2 to 3 short paragraphs.
+7. **List data gaps** with the action that would fill each one.
+8. **If you have 2 or more dossiers,** write a landscape file: threat table, feature comparison, where each competitor is weak, and 3 to 5 recommendations. Cite the dossiers rather than repeating them.
+9. **Hand off** to `/positioning`, which uses the competitor set as its list of alternatives.
 
-- Anchor + threat level surfaced in the executive summary
-- Claims tagged with confidence levels
-- `[UNAVAILABLE]` notation where real data isn't accessible to the skill (e.g., your private win-loss data)
-- Refresh cadence + owner at bottom
+## Output shape
 
-## Dependencies
+Title the file `# Competitor research: [Name]`. Then: a recent-changes line (on a refresh), executive summary, threat level, a section per dimension with inline `(Source: X)` notes, strengths and weaknesses, data gaps, and a sources table at the end with URL, access date and confidence per dimension.
 
-- **Reads from:** `marketing/positioning/positioning.md` (optional — gives the skill context on what differentiation matters); `marketing/icp/ICP.md` (optional — informs "where they win vs. lose" framing).
-- **Reads via Exa MCP (optional):** competitor's website, recent news, public reviews on G2/Reddit/Trustpilot.
-- **Writes to:** `marketing/competitors/MMYY-{slug}.md`
+## What good looks like
 
-## Customization
+- All 13 dimensions present, each either filled or marked with why it's empty.
+- Major claims (funding, size, pricing) have more than one source.
+- Review themes come with counts, not adjectives.
+- The threat level would make sense to your sales team.
+- A refresh updates the existing file and notes what changed, rather than creating a duplicate.
 
-Change the dimension count or section structure by editing this SKILL.md body. The 12-section default tracks the Genesys ontology (`.claude/rules/ontology.md` § competitor-intel). Add a custom dimension (e.g., "Open-source posture" if you're in a category where that matters) by appending a new section after section 8.
+## Mistakes to avoid
 
-## Where this fits in the Example 1 chain
+- Copying their marketing claims as fact. Note the claim, then the evidence.
+- Guessing pricing that's behind "contact sales".
+- Reporting old news as current. Date every finding.
+- A weakness list that's really a wish list ("their UX is bad") with no evidence.
+- Restating every dossier inside the landscape file.
 
-```
-Day 1-3: /competitor-research × N (this skill) → per-competitor files in marketing/competitors/
-Day 4:   /competitor-aggregate → synthesizes per-competitor files into the canonical threat matrix
-Day 5:   /icp-research → reads competitor outputs to inform ICP
-```
+## Chain
 
-After all 3 competitor files exist, run `/competitor-aggregate` to lock the canonical version.
-
-## Refresh cadence
-
-Per competitor: quarterly minimum. Trigger sooner on funding, launch, or repositioning. Use the `--refresh` flag (when you implement it) to update an existing dossier rather than create a new file.
+Step 3 of the suggested chain: `/company-context` → `/icp-research` → **competitor-research** → `/win-loss` → `/expert-pov` → `/tov-guidelines` → `/brand-kit` → `/positioning` → `/messaging` → `/funnel-strategy` → `/goals`.

@@ -16,7 +16,7 @@ The one-page rule prevents both.
 
 - Under ~80 lines of markdown when rendered on a 1080p screen
 - Sections allowed: a one-line purpose statement, folder pointers, reading order, key resources, owner
-- Sections NOT allowed: detailed positioning, detailed ICP, voice rules, skill catalogs, agent catalogs, MCP details. All of those go in their source files (e.g., `marketing/icp/ICP.md`, `marketing/positioning/positioning.md`, `.claude/skills/{name}/SKILL.md`).
+- Sections NOT allowed: detailed positioning, detailed ICP, voice rules, skill catalogs, agent catalogs, MCP details. All of those go in their source files (e.g., `context/icp/ICP.md`, `context/positioning/positioning.md`, `.claude/skills/{name}/SKILL.md`).
 
 If any CLAUDE.md creeps past 100 lines, that's the signal to extract content to the source file it's about and replace it with a one-line pointer.
 

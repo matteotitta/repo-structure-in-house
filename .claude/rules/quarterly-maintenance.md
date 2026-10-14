@@ -12,15 +12,15 @@ Not a team. A person. Skills, agents, MCP connections, context files, voice rule
 
 | Artifact | Owner | Notes |
 |---|---|---|
-| `marketing/positioning/positioning.md` | {Name} | |
-| `marketing/icp/ICP.md` | {Name} | |
-| `marketing/competitors/aggregate.md` | {Name} | Canonical; per-competitor files have their own owners |
-| `marketing/brand/brand-kit.md` | {Name} | |
-| `marketing/brand/brand-voice.md` | {Name} | |
-| `marketing/messaging/messaging.md` | {Name} | |
-| `marketing/rules/gate-rules.md` | {Name} | |
-| `marketing/rules/escalation.md` | {Name} | |
-| `marketing/goals/` (KPIs + measurement) | {Name} | |
+| `context/positioning/positioning.md` | {Name} | |
+| `context/icp/ICP.md` | {Name} | |
+| `context/competitors/aggregate.md` | {Name} | Canonical; per-competitor files have their own owners |
+| `context/brand/brand-kit.md` | {Name} | |
+| `context/brand/brand-voice.md` | {Name} | |
+| `context/messaging/messaging.md` | {Name} | |
+| `context/docs/gate-rules.md` | {Name} | |
+| `context/docs/escalation.md` | {Name} | |
+| `context/goals/` (KPIs + measurement) | {Name} | |
 | `.claude/skills/competitor-research/` | {Name} | Pre-seeded |
 | `.claude/skills/competitor-aggregate/` | {Name} | Pre-seeded |
 | `.claude/skills/icp-research/` | {Name} | Pre-seeded |
@@ -76,7 +76,7 @@ Once a quarter (calendar it now), spend 30 minutes auditing the repo:
 
 ### Output of each pruning ritual
 
-A short markdown entry appended to `marketing/history.md`:
+A short markdown entry appended to `context/history.md`:
 
 ```
 ## Quarterly pruning — 2026-{MM}-{DD}

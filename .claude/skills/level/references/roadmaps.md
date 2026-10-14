@@ -125,7 +125,7 @@ Show ONLY the section matching the assessed level. Focus is everything. Each roa
 **Unlocks:** autonomous execution — agents that manage agents, systems that take a goal and work toward it.
 
 1. **Autonomous loops** (advanced). Give Claude a spec + a test suite; it picks a task, implements, tests, commits if green, repeats. Safety: sandbox, clear modify-boundaries, review before pushing to main, max-iteration cap, kill switch.
-2. **Multi-agent orchestration framework** (advanced). An orchestrator decomposes → specialists execute → a reviewer validates. Each agent has its own context, memory, skills (Paperclip-style control plane + wave-batch).
+2. **Multi-agent orchestration framework** (advanced). An orchestrator decomposes → specialists execute → a reviewer validates. Each agent has its own context, memory, skills (an orchestration layer-style control plane + wave-batch).
 3. **Agent-to-agent coordination** (advanced). Shared task queue + results; git-based coordination (branches/PRs/merges); status files agents read + update.
 
 *Tip:* L10 is experimental and high-maintenance. It's "build, monitor, iterate", not "set and forget." Very few people are here.

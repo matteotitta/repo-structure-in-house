@@ -30,7 +30,7 @@ Re-run it whenever you want — the score updates as you level up.
 |------|--------|
 | `--mode beginner` (default) | "Knowledgeable friend" voice — explain *why* each thing matters, define jargon. Default front door = **quiz**. |
 | `--mode internal` | Terser, for auditing your own / your team's setup. Default front door = **scan**. |
-| `--brand-kit <path>` | Brand the HTML dashboard from a brand kit (a DESIGN.md with token frontmatter). Default = your `marketing/brand/brand-kit.md` once populated, else plain dark. `--brand-kit none` forces plain dark. |
+| `--brand-kit <path>` | Brand the HTML dashboard from a brand kit (a DESIGN.md with token frontmatter). Default = your `context/brand/brand-kit.md` once populated, else plain dark. `--brand-kit none` forces plain dark. |
 | `--format html` (default) `\| ascii \| both` | Output shape. `html` = branded dashboard. `ascii` = paste-anywhere card (Slack / LinkedIn / a code block). `both` = each. |
 | `--quiz` / `--assess` | Force the quiz, or the silent scan (then stop after the assessment). |
 | `--build` | Skip assessment; jump to building the next step. |
@@ -70,7 +70,7 @@ Always produce output after Phase 1 (+ Phase 2 unless `--assess`). Pick the shap
 ### HTML dashboard (`--format html`, default — or `both`)
 
 1. Read [`references/dashboard-template.html`](references/dashboard-template.html).
-2. **Resolve the brand:** `--brand-kit <path>` if given; else your `marketing/brand/brand-kit.md` (once populated); else `--brand-kit none` / the template's dark defaults.
+2. **Resolve the brand:** `--brand-kit <path>` if given; else your `context/brand/brand-kit.md` (once populated); else `--brand-kit none` / the template's dark defaults.
 3. **Map brand-kit tokens → dashboard tokens** per the template's comment: `colors.accent`→`{{ACCENT}}` (primary), `colors.tertiary`/`success`→`{{DONE}}`, `colors.background`/`surface`→`{{BG}}`/`{{SURFACE}}`, `colors.on-background*`→text tokens, `typography.*.fontFamily`→`{{FONT}}` (+ its web `<link>` as `{{FONT_LINK}}`), `name`/domain→`{{BRAND_NAME}}`/`{{BRAND_URL}}`. Use the kit's exact hex — never approximate.
 4. Replace every `{{TOKEN}}` with real assessment data — per-pillar bars + the shareable result card.
 5. Write to `~/Desktop/claude-code-level.html`, open it (`open` macOS / `xdg-open` Linux / `start` Windows), tell the user the path + the brand applied.

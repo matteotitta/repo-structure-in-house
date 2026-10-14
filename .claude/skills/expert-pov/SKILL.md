@@ -1,106 +1,101 @@
 ---
 name: expert-pov
-version: '1.0'
-last_updated: 2026-06-17
-author: genesys-growth
-description: Extract a founder's or expert's point of view — core beliefs, contrarian takes, origin stories, taste — and synthesize a recommended "one big idea" (OBI) that anchors thought leadership and brand voice. Writes to marketing/expert-pov/expert-pov.md. Triggers - "expert pov", "founder point of view", "thought leadership angle", "one big idea", "OBI", "founder beliefs", "founder narrative"
-goal: Turn a founder's raw thinking into a structured POV + a recommended OBI that anchors thought leadership, positioning, and brand voice.
-outcome: marketing/expert-pov/expert-pov.md with belief map, contrarian positions, origin stories, taste profile, and a recommended OBI.
-primitive: research
-ontology_type: expert-pov
-review_gate: 2
-inputs:
-  required: []
-  recommended:
-    - tov-guidelines
-outputs:
-  - type: expert-pov
-    feeds_into:
-      - positioning
-      - product-messaging
-      - content-strategy
-owned_by_agent: researcher
-mcps_used:
-  - exa
-triggers:
-  slash_commands:
-    - /expert-pov
-status: draft
+description: >-
+  Draws out a founder's or expert's point of view: what they believe about their market that others
+  don't, the hot takes they'd defend, the stories behind them, and their taste. Generates interview
+  questions, works from answers, a live call or existing content, and ends with ranked One Big Idea
+  candidates for thought leadership and positioning. Triggers: "expert POV", "founder POV", "one big
+  idea", "OBI", "contrarian beliefs", "what makes our founder different", "thought leadership
+  foundation", "founder interview questions". Feeds /positioning and /tov-guidelines. Not for writing
+  posts or articles, and not for brand voice rules (use /tov-guidelines).
+version: '1.0.0'
+license: MIT
 ---
 
-# expert-pov — founder point-of-view research skill
+# Expert POV
 
-Extracts the founder's / expert's genuine point of view and synthesizes a recommended "one big idea" (OBI) — the belief they can credibly own for years. Writes to `marketing/expert-pov/expert-pov.md`. This is the source the brand voice, thought-leadership, and founder-led content all read from.
+Authority comes from a distinct point of view, not from expertise alone. This skill surfaces what the founder (or another expert) actually believes, including the views that cut against the market, and turns them into a small set of ideas they can own for years.
 
----
+## When to use it
 
-## When to use
+- Building the context folder, before positioning, when the founder's voice is part of how the company sells.
+- Before starting a thought leadership program on LinkedIn, a newsletter or a podcast.
+- When content sounds like everyone else in the category.
 
-- Spinning up founder-led thought leadership and you need a defensible angle, not generic takes
-- Brand voice or positioning leans on founder conviction and you want it captured once, sourced
-- Before a content push where the founder is the face
+Don't use it to write the content itself, or to set brand voice rules (`/tov-guidelines`).
 
-## When NOT to use
+## Inputs
 
-- For company tone-of-voice rules (use `/tov-guidelines` — voice mechanics, not beliefs)
-- For positioning strategy (use `/positioning` — market position, not personal POV)
-- When there's no real founder input to work from — see the thin-input guard below
+**Required:** the founder's or expert's name, and the company's industry or category.
 
-## Inputs — and the thin-input guard
+**Recommended:** `context/company/` and `context/competitors/` (so you know what the market already says), and existing content: LinkedIn posts, podcast or interview transcripts, talks, essays.
 
-Founder input is the raw material: existing content (LinkedIn posts, podcast transcripts, interviews, talks) **or** answers to the question bank. If the available input is thin — fewer than ~3 distinct beliefs, 1 origin story, and 1 contrarian position — **halt before OBI synthesis** and ask the founder for more. A fabricated POV is worse than none; it reads hollow and fails the 100 Posts Test below.
+**Collection method.** Agree one up front: async (the founder answers written questions), live (an interview you transcribe), or content mining (you work from what they've already published). Mixing is fine.
 
-## How it works
+**Paths.** Write to `context/expert-pov/MMYY-expert-pov.md`. Agency or consultant? Swap `context/` for `clients/<client>/context/` throughout.
 
-1. Inputs: founder content URLs and/or interview answers. Optional: `marketing/brand/brand-voice.md` for voice alignment.
-2. Reads (Exa MCP for public founder content): LinkedIn, podcasts, interviews, talks, prior writing.
-3. Produces a structured POV with these sections (matches the PulseAnalytics example):
-   - **Belief map** — core beliefs + the implicit assumptions under them + where each invites push-back
-   - **Contrarian positions** — the hot takes, with what the consensus view is and why the founder departs from it
-   - **Origin stories** — 2-3 moments that shaped the thinking (the realization, what changed)
-   - **Taste profile** — what they admire, what they reject, their quality bar
-   - **Theme clusters** — 3-5 recurring territories the founder returns to
-   - **Recommended OBI** — the one big idea, scored on authenticity / differentiation / memorability / scalability / business fit, with an activation angle
-4. Apply the **100 Posts Test** — could the founder genuinely write 100 authentic posts on this OBI? If not, it's a campaign, not an OBI. Pick again.
-5. Every belief traces to a quote or a stated answer; nothing invented. Mark gaps `[UNAVAILABLE]`.
-6. Writes to `marketing/expert-pov/expert-pov.md` (overwrites prior canonical; git history preserves prior versions).
+**Tools.** For content mining, web search with a site filter on their LinkedIn or blog works. Exa helps if you have it.
 
-## Invoke
+## Steps
 
-```
-/expert-pov
-```
+1. **Generate questions.** 25 to 30 questions across six areas:
+   - market beliefs (where the category is going)
+   - contrarian views (what most people get wrong)
+   - craft (how they do the work, and why that way)
+   - origin (why they started, the moment it clicked)
+   - customer truths (what buyers misunderstand)
+   - taste (what they admire, what they refuse to do)
 
-Then share founder content links or answer the question bank. Or:
+   Tailor them to the industry. *Produces:* a question set the founder can answer in about 45 minutes.
+2. **Collect the input** by the agreed method. For content mining, gather at least 10 pieces.
+3. **Extract the POV.** From the answers or content, pull:
+   - **beliefs**, stated plainly
+   - **hot takes**, which a reasonable person could disagree with
+   - **origin stories**, with the concrete moment
+   - **taste signals**
 
-```
-/expert-pov — founder LinkedIn: [URL] + this podcast transcript: [paste]
-```
+   Quote the founder's own words for each.
+4. **Classify the founder's archetype** from their origin story, citing their words:
+   - **problem**: they lived the pain
+   - **insight**: they saw something others missed
+   - **vision**: they disagree with where the market is heading
 
-## Example output
+   The archetype shapes which ideas will sound authentic in their mouth.
+5. **Cluster into themes.** Group related beliefs. Drop anything every competitor would also say.
+6. **Draft One Big Idea candidates.** 3 to 5 single-sentence ideas the founder could build a body of work around. Each one names a belief, the tension it resolves and who it's for.
+7. **Score each candidate** on four questions:
+   - Is it distinct from competitors?
+   - Is it true to the founder?
+   - Does it matter to the ICP?
+   - Could they write 100 posts on it?
+8. **Develop the top candidate** with its supporting beliefs, three proof points or stories, and five content angles.
+9. **Review with the user.** Approve, iterate on the idea, or go back for more themes.
 
-See [`marketing/expert-pov/expert-pov.md`](../../../pulse-analytics-example/expert-pov/expert-pov.md) for the PulseAnalytics example seed. Notice: beliefs carry their counter-view; the OBI is scored, not asserted; the 100 Posts Test is applied explicitly.
+## Output shape
 
-## Dependencies
+1. Summary: the recommended One Big Idea in one sentence, and the archetype.
+2. Beliefs, hot takes and origin stories, each with a quote and source.
+3. Themes.
+4. Candidate table with scores and one line of reasoning each.
+5. The developed top idea.
+6. Gaps and follow-up questions.
+7. The question set, so it can be reused.
 
-- **Reads from:** founder content + interview answers (required); `marketing/brand/brand-voice.md` (optional)
-- **Reads via Exa MCP (optional):** public founder content
-- **Writes to:** `marketing/expert-pov/expert-pov.md` (canonical; thought-leadership + founder content read from here)
+## What good looks like
 
-## Customization
+- Every belief traces to the founder's own words, not your summary of their industry.
+- At least one hot take would make a competitor uncomfortable.
+- The top idea passes the 100-posts test without straining.
+- The ideas fit the archetype. A problem founder leading with a grand vision rings false.
+- Nothing here could appear unchanged on a competitor's blog.
 
-When there's more than one public-facing expert (a founder + a head of product who both post), run once per person — each gets their own OBI. Keep them distinct; a shared "company POV" dilutes both.
+## Mistakes to avoid
 
-## Where this fits in the chain
+- Writing beliefs the founder never said.
+- Contrarian for its own sake. A hot take has to be something they'd defend on a call.
+- Ten ideas instead of one. The point is focus.
+- Generic themes like "customer obsession" or "AI is changing everything".
 
-```
-/tov-guidelines → company voice mechanics
-/expert-pov (THIS SKILL) → founder beliefs + OBI
-        ↓
-/positioning + /product-messaging borrow the founder's framing
-content (thought leadership, social) is written from the OBI
-```
+## Chain
 
-## Refresh cadence
-
-Every 6 months, or when the founder's thinking visibly shifts (a new belief shows up across recent posts).
+Step 5 of the suggested chain: `/company-context` → `/icp-research` → `/competitor-research` → `/win-loss` → **expert-pov** → `/tov-guidelines` → `/brand-kit` → `/positioning` → `/messaging` → `/funnel-strategy` → `/goals`.
