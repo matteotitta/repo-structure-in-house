@@ -84,4 +84,4 @@ Title the file `# Competitor research: [Name]`. Then: a recent-changes line (on 
 
 ## Chain
 
-Part of the free five-skill chain: `/icp-research` → **competitor-research** → `/tov-guidelines` → `/positioning` → `/messaging`. The other six context skills (company context, win-loss, founder POV, brand kit, funnel and goals) are free in the [context plugin](https://github.com/matteotitta/claude-marketing-context).
+Part of the free five-skill chain: `/icp-research` → **competitor-research** → `/tov-guidelines` → `/positioning` → `/messaging`. The other six context skills (company context, win-loss, founder POV, brand kit, funnel and goals) are in the paid context plugin ($19.99, link in the README).

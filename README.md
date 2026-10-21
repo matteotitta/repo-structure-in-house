@@ -21,7 +21,7 @@ Agency or consultant with several clients? Use [repo-structure-agency](https://g
    ```
    /icp-research → /competitor-research → /tov-guidelines → /positioning → /messaging
    ```
-   Want win-loss from your sales calls, the founder's point of view, a brand kit, a funnel or goals? Those six skills are free in the [context plugin](https://github.com/matteotitta/claude-marketing-context).
+   Want win-loss from your sales calls, the founder's point of view, a brand kit, a funnel or goals? Those six skills are in my [context plugin](https://maven.com/matteo-tittarelli/o/8264c5), $19.99 on Maven.
 
 Web research works best with an [Exa](https://exa.ai) key in `.env` (copy `env` to `.env`). Without one, the skills fall back to plain web search.
 
@@ -51,13 +51,13 @@ Every folder has a one-page `CLAUDE.md` that says what goes there and which skil
 
 The five skills here build your context. When you're ready to ship work, add the plugin for that lane. Each one reads the same `context/` folder:
 
-| Lane | Plugin |
-|---|---|
-| Product launches, stories, case studies | [claude-marketing-launch](https://github.com/matteotitta/claude-marketing-launch) |
-| Website score, sitemap, wireframes, copy | [claude-marketing-website](https://github.com/matteotitta/claude-marketing-website) |
-| AI-answer and search visibility | [claude-marketing-aeo](https://github.com/matteotitta/claude-marketing-aeo) |
-| LinkedIn profile, posts, carousels | [claude-marketing-linkedin](https://github.com/matteotitta/claude-marketing-linkedin) |
-| Content strategy, long-form, newsletter | [claude-marketing-content](https://github.com/matteotitta/claude-marketing-content) |
+| Lane | Plugin | Price |
+|---|---|---|
+| Product launches, stories, case studies | [claude-marketing-launch](https://github.com/matteotitta/claude-marketing-launch) | Free |
+| Website score, sitemap, wireframes, copy | [claude-marketing-website](https://maven.com/matteo-tittarelli/o/e6f079) | $29.99 on Maven |
+| AI-answer and search visibility | [claude-marketing-aeo](https://maven.com/matteo-tittarelli/o/b376c8) | $19.99 on Maven |
+| LinkedIn profile, posts, carousels | [claude-marketing-linkedin](https://maven.com/matteo-tittarelli/o/50a538) | $19.99 on Maven |
+| Content strategy, long-form, newsletter | [claude-marketing-content](https://maven.com/matteo-tittarelli/o/5b9521) | $19.99 on Maven |
 
 Want to build your own skills? Start from [gtm-skill-template](https://github.com/matteotitta/gtm-skill-template).
 
@@ -71,8 +71,8 @@ This is the free starting point: the context layer, which is layer 1 of 4. Stude
 |---|---|---|
 | Context folders and the five foundational skills | ✓ | ✓ |
 | Worked example company | ✓ | ✓ |
-| The other six context skills (win-loss, founder POV, brand kit, funnel, goals, company context) | Free [context plugin](https://github.com/matteotitta/claude-marketing-context) | ✓ |
-| Skills for every lane, with the reference material and templates | Five free plugins | The full library |
+| The other six context skills (win-loss, founder POV, brand kit, funnel, goals, company context) | [Context plugin](https://maven.com/matteo-tittarelli/o/8264c5), $19.99 | ✓ |
+| Skills for every lane, with the reference material and templates | Lane plugins: launch free, the rest $19.99 to $29.99 | The full library |
 | Lanes split into research, strategy and execution | | ✓ |
 | Agents, commands and hooks that chain skills and check their own work | | ✓ |
 | Session memory, so each session picks up where the last one stopped | | ✓ |

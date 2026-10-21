@@ -3,7 +3,7 @@
 Every skill reads these folders before it writes anything. Fill them in this order:
 ICP, competitors, voice, positioning, messaging.
 
-Win-loss, founder POV, brand kit, funnel and goals come from the free [context plugin](https://github.com/matteotitta/claude-marketing-context) when you want them.
+Win-loss, founder POV, brand kit, funnel and goals are in the paid context plugin ($19.99, link in the README), when you want them.
 
 | Folder | What goes here | Skill that fills it |
 |---|---|---|

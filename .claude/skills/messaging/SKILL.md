@@ -83,4 +83,4 @@ Title it `# Product messaging library: [Product]`. Open with a TLDR and one bloc
 
 ## Chain
 
-Part of the free five-skill chain: `/icp-research` → `/competitor-research` → `/tov-guidelines` → `/positioning` → **messaging**. The other six context skills (company context, win-loss, founder POV, brand kit, funnel and goals) are free in the [context plugin](https://github.com/matteotitta/claude-marketing-context).
+Part of the free five-skill chain: `/icp-research` → `/competitor-research` → `/tov-guidelines` → `/positioning` → **messaging**. The other six context skills (company context, win-loss, founder POV, brand kit, funnel and goals) are in the paid context plugin ($19.99, link in the README).
