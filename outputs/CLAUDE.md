@@ -1,6 +1,6 @@
 # outputs/ — what you ship
 
-Each lane runs research, then strategy, then execution. Skills read `context/` first and save here.
+One folder per lane. Skills read `context/` first and save here, named `MMYY-topic.md`.
 
 | Lane | What goes here | Skills |
 |---|---|---|

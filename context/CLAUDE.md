@@ -1,7 +1,9 @@
 # context/ — what Claude reads first
 
 Every skill reads these folders before it writes anything. Fill them in this order:
-company facts, ICP, competitors, win-loss, expert POV, brand and voice, positioning, messaging, funnel, goals.
+ICP, competitors, voice, positioning, messaging.
+
+Win-loss, founder POV, brand kit, funnel and goals come from the free [context plugin](https://github.com/matteotitta/claude-marketing-context) when you want them.
 
 | Folder | What goes here | Skill that fills it |
 |---|---|---|
@@ -9,11 +11,8 @@ company facts, ICP, competitors, win-loss, expert POV, brand and voice, position
 | [`competitors/`](./competitors/) | One file per competitor, plus a short summary across them. | `/competitor-research` |
 | [`positioning/`](./positioning/) | The category you compete in, your alternatives, what's different, who cares. | `/positioning` |
 | [`messaging/`](./messaging/) | Value props, proof points per persona, the words to use and avoid. | `/messaging` |
-| [`brand/`](./brand/) | Brand kit (colours, type, logo use) and your tone of voice. | `/brand-kit and /tov-guidelines` |
-| [`expert-pov/`](./expert-pov/) | What the founder or expert believes about the market, in their words. | `/expert-pov` |
-| [`win-loss/`](./win-loss/) | Why deals close, stall and churn, quoted from real calls. | `/win-loss` |
-| [`goals/`](./goals/) | Targets, KPIs, baselines, monthly pacing, and the funnel they run through. | `/funnel-strategy then /goals` |
-| [`docs/`](./docs/) | Anything else Claude should know: company facts, briefs, transcripts, rules. | `/company-context` |
+| [`brand/`](./brand/) | Your tone of voice: how you sound, the words to use and avoid. | `/tov-guidelines` |
+| [`docs/`](./docs/) | Anything else Claude should know: company facts, briefs, transcripts. | `no skill: add files by hand` |
 
 Keep one current file per topic (for example `positioning.md`) and date the research behind it (`1026-competitor-acme.md`).
 See [`../example/pulse-analytics/context`](../example/pulse-analytics/context) for a filled-in version.

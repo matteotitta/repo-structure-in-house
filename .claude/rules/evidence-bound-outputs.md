@@ -32,7 +32,7 @@ Before any transcript-derived output ships: every factual claim has a verbatim/n
 
 ## Owner
 
-Whoever owns the win-loss / transcript work (named in [`quarterly-maintenance.md`](./quarterly-maintenance.md)).
+Whoever owns the win-loss / transcript work.
 
 ## Refresh cadence
 

@@ -2,7 +2,7 @@
 
 # Repo structure for in-house marketers
 
-The folder layout that gives Claude Code your company's context before it writes anything. Fork it, fill `context/` with the 11 skills inside, and every draft after that starts from your ICP, your positioning and your voice. You stop re-explaining your product every session.
+The folder layout that gives Claude Code your company's context before it writes anything. Fork it, fill `context/` with the five foundational skills inside, and every draft after that starts from your ICP, your positioning and your voice. You stop re-explaining your product every session.
 
 **[Use this template →](https://github.com/new?template_name=repo-structure-in-house&template_owner=matteotitta)**
 
@@ -19,10 +19,9 @@ Agency or consultant with several clients? Use [repo-structure-agency](https://g
 2. **Open it in Claude Code** and read the example first: `example/pulse-analytics/` is a made-up B2B SaaS company with every context file filled in.
 3. **Fill your context in this order.** Each skill asks for what it needs and saves into the right folder:
    ```
-   /company-context → /icp-research → /competitor-research → /win-loss → /expert-pov
-   → /tov-guidelines → /brand-kit → /positioning → /messaging → /funnel-strategy → /goals
+   /icp-research → /competitor-research → /tov-guidelines → /positioning → /messaging
    ```
-   `/win-loss` needs call transcripts and `/expert-pov` needs founder material. Skip either until you have them.
+   Want win-loss from your sales calls, the founder's point of view, a brand kit, a funnel or goals? Those six skills are free in the [context plugin](https://github.com/matteotitta/claude-marketing-context).
 
 Web research works best with an [Exa](https://exa.ai) key in `.env` (copy `env` to `.env`). Without one, the skills fall back to plain web search.
 
@@ -32,19 +31,14 @@ Web research works best with an [Exa](https://exa.ai) key in `.env` (copy `env` 
 
 ```
 repo-structure-in-house/
-├── context/          what Claude reads first: icp, competitors, positioning, messaging,
-│                     brand, expert-pov, win-loss, goals, docs
-├── outputs/          what you ship, by lane: content, website, seo-aeo, social,
-│                     product-marketing, sales, paid, lifecycle, outbound
-│                     (each lane runs research → strategy → execution)
-├── workflows/        recipes that chain several skills
-├── library/taste/    work you admire, for "in the style of"
+├── context/          what Claude reads first: icp, competitors, positioning,
+│                     messaging, brand (your voice), docs
+├── outputs/          what you ship, one folder per lane: content, website, seo-aeo,
+│                     social, product-marketing, sales, paid, lifecycle, outbound
 ├── example/          PulseAnalytics, filled in. Read it, then delete it
-├── latest.md         what changed recently (Claude reads it at the start)
-├── history.md        one line per meaningful change
 └── .claude/
-    ├── skills/       the 11 context skills, plus /level
-    └── rules/        four short house rules
+    ├── skills/       the five foundational context skills, plus /level
+    └── rules/        one house rule: quote the source, or lower the confidence
 ```
 
 Every folder has a one-page `CLAUDE.md` that says what goes there and which skill fills it.
@@ -55,7 +49,7 @@ Every folder has a one-page `CLAUDE.md` that says what goes there and which skil
 
 ## Add skills for each lane
 
-The 11 skills here build your context. When you're ready to ship work, add the plugin for that lane. Each one reads the same `context/` folder:
+The five skills here build your context. When you're ready to ship work, add the plugin for that lane. Each one reads the same `context/` folder:
 
 | Lane | Plugin |
 |---|---|
@@ -71,11 +65,20 @@ Want to build your own skills? Start from [gtm-skill-template](https://github.co
 
 ## What the full version adds
 
-This is the free shape of the workspace students build in [Marketing Engineering University](https://maven.com/matteo-tittarelli/marketing-engineering-university-genesys-growth). The course version adds:
+This is the free starting point: the context layer, which is layer 1 of 4. Students in [Marketing Engineering University](https://maven.com/matteo-tittarelli/marketing-engineering-university-genesys-growth) build all four on their own company:
 
-- the full skill library, with the reference material and output templates these free skills leave out
-- agents, commands and hooks that chain the skills and check their own work
-- live sessions where you build the system on your own company
+| | Free (this repo) | Course |
+|---|---|---|
+| Context folders and the five foundational skills | ✓ | ✓ |
+| Worked example company | ✓ | ✓ |
+| The other six context skills (win-loss, founder POV, brand kit, funnel, goals, company context) | Free [context plugin](https://github.com/matteotitta/claude-marketing-context) | ✓ |
+| Skills for every lane, with the reference material and templates | Five free plugins | The full library |
+| Lanes split into research, strategy and execution | | ✓ |
+| Agents, commands and hooks that chain skills and check their own work | | ✓ |
+| Session memory, so each session picks up where the last one stopped | | ✓ |
+| Connectors set up for your stack (Slack, Notion, CRM, analytics) | Exa only | ✓ |
+| House rules for transcripts, privacy and upkeep | One | Full set |
+| Live sessions and feedback on your own company | | ✓ |
 
 The free version is enough to get your context right. That's the step most teams skip.
 
@@ -85,9 +88,7 @@ The free version is enough to get your context right. That's the step most teams
 
 - Every file in `context/` has one owner.
 - Re-run a context skill when something real changes: a new competitor, a pricing change, a new segment.
-- Every 90 days, spend 30 minutes pruning. See [`.claude/rules/quarterly-maintenance.md`](.claude/rules/quarterly-maintenance.md).
-
-[`HOW-TO-OPERATE.md`](HOW-TO-OPERATE.md) has seven habits for getting real work out of Claude Code.
+- Every 90 days, spend 30 minutes pruning anything nobody reads.
 
 ---
 

@@ -96,4 +96,4 @@ Don't use it for colours and fonts (`/brand-kit`), for what to say (`/messaging`
 
 ## Chain
 
-Step 6 of the suggested chain: `/company-context` → `/icp-research` → `/competitor-research` → `/win-loss` → `/expert-pov` → **tov-guidelines** → `/brand-kit` → `/positioning` → `/messaging` → `/funnel-strategy` → `/goals`.
+Part of the free five-skill chain: `/icp-research` → `/competitor-research` → **tov-guidelines** → `/positioning` → `/messaging`. The other six context skills (company context, win-loss, founder POV, brand kit, funnel and goals) are free in the [context plugin](https://github.com/matteotitta/claude-marketing-context).

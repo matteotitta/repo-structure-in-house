@@ -1,5 +1,5 @@
 # context/brand/
 
-Brand kit (colours, type, logo use) and your tone of voice.
+Your tone of voice: how you sound, the words to use and avoid.
 
-Fill it with `/brand-kit and /tov-guidelines`. Example: [`brand/` filled in](../../example/pulse-analytics/context/brand/).
+Fill it with `/tov-guidelines`. Example: [`brand/` filled in](../../example/pulse-analytics/context/brand/).

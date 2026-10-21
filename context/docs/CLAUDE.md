@@ -1,5 +1,5 @@
 # context/docs/
 
-Anything else Claude should know: company facts, briefs, transcripts, rules.
+Anything else Claude should know: company facts, briefs, transcripts.
 
-Fill it with `/company-context`. Example: [`docs/` filled in](../../example/pulse-analytics/context/docs/).
+Fill it with `no skill: add files by hand`. Example: [`docs/` filled in](../../example/pulse-analytics/context/docs/).
